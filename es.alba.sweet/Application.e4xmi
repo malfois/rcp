@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_6wlLcMgZEeSyMNYR5xypkQ" elementId="es.alba.sweet.application" bindingContexts="_6wlLecgZEeSyMNYR5xypkQ">
-  <children xsi:type="basic:TrimmedWindow" xmi:id="_6wlLccgZEeSyMNYR5xypkQ" elementId="es.alba.sweet.window.main" label="Eclipse 4 RCP Application" width="500" height="400">
+  <children xsi:type="basic:TrimmedWindow" xmi:id="_6wlLccgZEeSyMNYR5xypkQ" elementId="es.alba.sweet.window.main" label="Sweet - 26th October 2020 - Version 2.0 " width="800" height="600">
     <children xsi:type="advanced:PerspectiveStack" xmi:id="_lKM84DCNEeu2c9HBp9UyBQ" elementId="es.alba.sweet.perspectivestack"/>
     <trimBars xmi:id="_6wlLlcgZEeSyMNYR5xypkQ" elementId="es.alba.sweet.trimbar.top">
-      <children xsi:type="menu:ToolBar" xmi:id="_6wlLlsgZEeSyMNYR5xypkQ" elementId="org.eclipse.ui.main.toolbar">
-        <children xsi:type="menu:HandledToolItem" xmi:id="_6wlLmMgZEeSyMNYR5xypkQ" elementId="es.alba.sweet.handleditem.trimbar.top.save" iconURI="platform:/plugin/es.alba.sweet/icons/save_edit.png" command="_6wlLg8gZEeSyMNYR5xypkQ"/>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_6wlLl8gZEeSyMNYR5xypkQ" elementId="es.alba.sweet.handleditem.trimbar.top.open" iconURI="platform:/plugin/es.alba.sweet/icons/open_in_app.png" command="_6wlLgMgZEeSyMNYR5xypkQ"/>
-      </children>
+      <children xsi:type="menu:ToolControl" xmi:id="_-gnYADsAEeu6T-2t2WI8Eg" elementId="es.alba.sweet.toolcontrol.1" contributionURI="bundleclass://es.alba.sweet/es.alba.sweet.toolbar.PerspectiveName"/>
+      <children xsi:type="menu:ToolControl" xmi:id="_d5-LEDsCEeu6T-2t2WI8Eg" elementId="es.alba.sweet.toolcontrol.0" contributionURI="bundleclass://es.alba.sweet/es.alba.sweet.toolbar.PerspectiveLayout"/>
     </trimBars>
   </children>
   <handlers xmi:id="_6wlLfcgZEeSyMNYR5xypkQ" elementId="es.alba.sweet.handler.quitCommand" contributionURI="bundleclass://es.alba.sweet/es.alba.sweet.handlers.QuitHandler" command="_6wlLfMgZEeSyMNYR5xypkQ"/>
@@ -23,8 +21,8 @@
     <children xmi:id="_6wlLesgZEeSyMNYR5xypkQ" elementId="org.eclipse.ui.contexts.window" name="In Windows"/>
     <children xmi:id="_6wlLe8gZEeSyMNYR5xypkQ" elementId="org.eclipse.ui.contexts.dialog" name="In Dialogs"/>
   </rootContext>
-  <descriptors xmi:id="_eb5_QDCVEeu_5dru8P2SYg" elementId="es.alba.sweet.partdescriptor.output.message" label="Message" contributionURI="bundleclass://es.alba.sweet/es.alba.sweet.parts.Message"/>
-  <descriptors xmi:id="_mNP0oDCVEeu_5dru8P2SYg" elementId="es.alba.sweet.partdescriptor.output.debug" label="Debug" contributionURI="bundleclass://es.alba.sweet/es.alba.sweet.parts.Debug"/>
+  <descriptors xmi:id="_eb5_QDCVEeu_5dru8P2SYg" elementId="es.alba.sweet.partdescriptor.output.message" label="Message" iconURI="platform:/plugin/es.alba.sweet/icons/consoles_view.png" allowMultiple="true" category="" closeable="true" contributionURI="bundleclass://es.alba.sweet/es.alba.sweet.parts.MessageViewer"/>
+  <descriptors xmi:id="_mNP0oDCVEeu_5dru8P2SYg" elementId="es.alba.sweet.partdescriptor.output.debug" label="Debug" iconURI="platform:/plugin/es.alba.sweet/icons/debug_view_auto.png" allowMultiple="true" category="" closeable="true" contributionURI="bundleclass://es.alba.sweet/es.alba.sweet.parts.DebugViewer"/>
   <snippets xsi:type="advanced:Perspective" xmi:id="_p3M3gDCNEeu2c9HBp9UyBQ" elementId="es.alba.sweet.perspective.scan" label="Scan">
     <children xsi:type="basic:PartSashContainer" xmi:id="_fAmuUDDCEeu_5dru8P2SYg" elementId="es.alba.sweet.partsashcontainer.2">
       <children xsi:type="basic:PartSashContainer" xmi:id="_bleW8DCQEeu_5dru8P2SYg" elementId="es.alba.sweet.partsashcontainer.0" horizontal="true">
@@ -42,7 +40,7 @@
           </children>
         </children>
       </children>
-      <children xsi:type="basic:PartStack" xmi:id="_jHNXUDDCEeu_5dru8P2SYg" elementId="es.alba.sweet.partstack.output"/>
+      <children xsi:type="basic:PartStack" xmi:id="_jHNXUDDCEeu_5dru8P2SYg" elementId="es.alba.sweet.partstack.scan.output"/>
     </children>
   </snippets>
   <snippets xsi:type="advanced:Perspective" xmi:id="_gbOx4DDFEeu_5dru8P2SYg" elementId="es.alba.sweet.perspective.user" label="User">
@@ -55,7 +53,7 @@
           <children xsi:type="basic:Part" xmi:id="_4d_AQDDFEeu_5dru8P2SYg" elementId="es.alba.sweet.part.user.graph" contributionURI="bundleclass://es.alba.sweet/es.alba.sweet.users.Graph" label="Some graph"/>
         </children>
       </children>
-      <children xsi:type="basic:PartStack" xmi:id="_hpvW8DDGEeu_5dru8P2SYg" elementId="es.alba.sweet.partstack.output"/>
+      <children xsi:type="basic:PartStack" xmi:id="_hpvW8DDGEeu_5dru8P2SYg" elementId="es.alba.sweet.partstack.user.output"/>
     </children>
   </snippets>
   <commands xmi:id="_6wlLfMgZEeSyMNYR5xypkQ" elementId="org.eclipse.ui.file.exit" commandName="quitCommand"/>

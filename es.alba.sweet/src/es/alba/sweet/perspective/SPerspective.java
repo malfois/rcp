@@ -1,6 +1,7 @@
 package es.alba.sweet.perspective;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.e4.core.di.annotations.Creatable;
 import org.eclipse.e4.ui.model.application.MApplication;
@@ -11,7 +12,9 @@ import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.model.application.ui.basic.MPartStack;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
+import org.eclipse.swt.widgets.Display;
 
+import es.alba.sweet.core.Output;
 import es.alba.sweet.id.Id;
 
 @Creatable
@@ -26,31 +29,38 @@ public class SPerspective {
 
 		MPart message = partService.createPart("es.alba.sweet.partdescriptor.output.message");
 		message.setLabel("Message");
-		MPart debug = partService.createPart("es.alba.sweet.partdescriptor.output.message");
+		MPart debug = partService.createPart("es.alba.sweet.partdescriptor.output.debug");
 		debug.setLabel("Debug");
 
-		List<MUIElement> elements = application.getSnippets();
+		List<MPerspective> elements = application.getSnippets().stream().filter(p -> (p instanceof MPerspective)).map(m -> (MPerspective) m).collect(Collectors.toList());
+
 		boolean isFirst = true;
-		for (MUIElement e : elements) {
-			if (e instanceof MPerspective) {
-				MPerspective perspectiveClone = (MPerspective) modelService.cloneSnippet(application, e.getElementId(), null);
+		// for (MPerspective e : elements) {
+		MPerspective perspectiveClone = (MPerspective) modelService.cloneSnippet(application, elements.get(0).getElementId(), null);
 
-				MPart messageClone = (MPart) modelService.cloneElement(message, application);
-				MPart debugClone = (MPart) modelService.cloneElement(debug, application);
+		MPart messageClone = (MPart) modelService.cloneElement(message, application);
+		MPart debugClone = (MPart) modelService.cloneElement(debug, application);
 
-				MPartStack partStack = (MPartStack) modelService.find("es.alba.sweet.partstack.output", perspectiveClone);
-				System.out.println(partStack);
+		String id = String.join(".", "es.alba.sweet.partstack", perspectiveClone.getLabel().toLowerCase(), "output");
+		System.out.println(id);
+
+		MPartStack partStack = (MPartStack) modelService.find(id, perspectiveClone);
+		Display.getDefault().syncExec(new Runnable() {
+			public void run() {
 				partStack.getChildren().addAll(List.of(messageClone, debugClone));
-
-				perspectiveStack.getChildren().add(perspectiveClone);
-				if (isFirst) {
-					perspectiveStack.setSelectedElement(perspectiveClone);
-					isFirst = false;
-				}
 			}
+		});
+
+		perspectiveStack.getChildren().add(perspectiveClone);
+		if (isFirst) {
+			perspectiveStack.setSelectedElement(perspectiveClone);
+			isFirst = false;
 		}
-		return;
+
+		Output.DEBUG.info("es.alba.sweet.perspective.SPerspective.build", "Perspectives built");
 	}
+
+	// }
 
 	@Override
 	public String toString() {
