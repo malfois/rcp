@@ -6,7 +6,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 
-import es.alba.sweet.core.Output;
+import es.alba.sweet.core.output.Output;
 
 public class OutputListViewer {
 

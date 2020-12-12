@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
-import es.alba.sweet.core.Output;
+import es.alba.sweet.core.output.Output;
 
 public class Activator implements BundleActivator {
 	public final static Logger		LOGGER	= Logger.getLogger(Activator.class.getName());

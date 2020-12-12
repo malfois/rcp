@@ -11,6 +11,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
+import es.alba.sweet.core.IconLoader;
+
 public class PerspectiveName {
 	private Composite		parent;
 	private ResourceManager	resManager;
@@ -24,14 +26,10 @@ public class PerspectiveName {
 
 		resManager = new LocalResourceManager(JFaceResources.getResources(), parent);
 
-		GridData gridLayout = new GridData();
-		gridLayout.grabExcessHorizontalSpace = true;
-		parent.setLayoutData(gridLayout);
-
 		Composite composite = new Composite(parent, SWT.NONE);
 		GridLayout compositeLayout = new GridLayout();
 		compositeLayout.horizontalSpacing = 5;
-		compositeLayout.numColumns = 7;
+		compositeLayout.numColumns = 3;
 		composite.setLayout(compositeLayout);
 
 		Label perspective = new Label(composite, SWT.NONE);
@@ -41,8 +39,9 @@ public class PerspectiveName {
 		GridData gridData = new GridData();
 		gridData.widthHint = 20;
 		imageLabel.setLayoutData(gridData);
+		imageLabel.setImage(resManager.createImage(IconLoader.load("scan.png")));
 
 		nameLabel = new Label(composite, SWT.BORDER);
-		nameLabel.setText("Unknown");
+		nameLabel.setText("Scan");
 	}
 }

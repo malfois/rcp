@@ -1,4 +1,4 @@
-package es.alba.sweet.core;
+package es.alba.sweet.core.output;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +64,7 @@ public enum Output {
 		if (name.equalsIgnoreCase(OutputName.DEBUG)) {
 			Activator.LOGGER.info(message.toString());
 		}
+		System.out.print(message);
 	}
 
 	private static AMessage Factory(String name, MessageType type, String method, String message) {

@@ -26,6 +26,7 @@
    </vm>
 
    <plugins>
+      <plugin id="com.ibm.icu"/>
       <plugin id="com.sun.jna"/>
       <plugin id="com.sun.jna.platform"/>
       <plugin id="es.alba.sweet"/>
@@ -50,6 +51,7 @@
       <plugin id="org.eclipse.core.expressions"/>
       <plugin id="org.eclipse.core.jobs"/>
       <plugin id="org.eclipse.core.runtime"/>
+      <plugin id="org.eclipse.draw2d"/>
       <plugin id="org.eclipse.e4.core.commands"/>
       <plugin id="org.eclipse.e4.core.contexts"/>
       <plugin id="org.eclipse.e4.core.di"/>
@@ -88,6 +90,7 @@
       <plugin id="org.eclipse.equinox.registry"/>
       <plugin id="org.eclipse.jface"/>
       <plugin id="org.eclipse.jface.databinding"/>
+      <plugin id="org.eclipse.nebula.visualization.xygraph"/>
       <plugin id="org.eclipse.osgi"/>
       <plugin id="org.eclipse.osgi.compatibility.state" fragment="true"/>
       <plugin id="org.eclipse.osgi.services"/>

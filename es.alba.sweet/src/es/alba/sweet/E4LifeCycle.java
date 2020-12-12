@@ -1,7 +1,6 @@
 package es.alba.sweet;
 
 import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.eclipse.e4.ui.internal.workbench.E4Workbench;
 import org.eclipse.e4.ui.workbench.lifecycle.PostContextCreate;
 import org.eclipse.e4.ui.workbench.lifecycle.PreSave;
 import org.eclipse.e4.ui.workbench.lifecycle.ProcessAdditions;
@@ -15,12 +14,7 @@ public class E4LifeCycle {
 
 	@PostContextCreate
 	void postContextCreate(IEclipseContext workbenchContext) {
-		IEclipseContext serviceContext = E4Workbench.getServiceContext();
-		IEclipseContext applicationContext = (IEclipseContext) serviceContext.getActiveChild();
-		// MApplication application = serviceContext.get(MApplication.class);
-
-		System.out.println(this.getClass() + " postContextCreate" + " " + applicationContext);
-		// ContextInjectionFactory.make(SPerspective.class, workbenchContext);
+		System.out.println(this.getClass() + " postContextCreate");
 	}
 
 	@PreSave
@@ -29,10 +23,7 @@ public class E4LifeCycle {
 
 	@ProcessAdditions
 	void processAdditions(IEclipseContext workbenchContext) {
-		IEclipseContext serviceContext = E4Workbench.getServiceContext();
-		IEclipseContext applicationContext = (IEclipseContext) serviceContext.getActiveChild();
-
-		System.out.println(this.getClass() + " processAdditions" + " " + applicationContext);
+		System.out.println(this.getClass() + " processAdditions" + " ");
 	}
 
 	@ProcessRemovals

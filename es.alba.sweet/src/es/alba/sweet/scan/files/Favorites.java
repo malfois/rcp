@@ -1,19 +1,22 @@
-
+ 
 package es.alba.sweet.scan.files;
 
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-
+import javax.annotation.PostConstruct;
 import org.eclipse.swt.widgets.Composite;
 
-public class Directory {
+public class Favorites {
 	@Inject
-	public Directory() {
-
+	public Favorites() {
+		
 	}
-
+	
 	@PostConstruct
 	public void postConstruct(Composite parent) {
-
+		
 	}
+	
+	
+	
+	
 }

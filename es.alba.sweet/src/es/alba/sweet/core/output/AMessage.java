@@ -1,4 +1,4 @@
-package es.alba.sweet.core;
+package es.alba.sweet.core.output;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

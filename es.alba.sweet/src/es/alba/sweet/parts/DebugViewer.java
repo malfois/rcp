@@ -8,9 +8,9 @@ import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.swt.widgets.Composite;
 
-import es.alba.sweet.core.AMessage;
-import es.alba.sweet.core.Output;
-import es.alba.sweet.core.OutputName;
+import es.alba.sweet.core.output.AMessage;
+import es.alba.sweet.core.output.Output;
+import es.alba.sweet.core.output.OutputName;
 
 public class DebugViewer {
 
