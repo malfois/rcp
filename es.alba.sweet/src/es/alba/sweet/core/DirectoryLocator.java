@@ -31,4 +31,19 @@ public class DirectoryLocator {
 		Bundle bundle = FrameworkUtil.getBundle(DirectoryLocator.class);
 		return FileLocator.find(bundle, new org.eclipse.core.runtime.Path(path.toString()), null);
 	}
+
+	public static Path findPath(String path) {
+		URL url = findDirectory(Paths.get(path));
+
+		try {
+			File file = new File(FileLocator.toFileURL(url).getPath());
+			return Paths.get(file.getAbsolutePath());
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
 }

@@ -1,18 +1,14 @@
-package es.alba.sweet.toolbar;
+package es.alba.sweet.perspective;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 
+import org.eclipse.e4.ui.model.application.ui.advanced.MPerspective;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
-import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
-import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.jface.resource.LocalResourceManager;
-import org.eclipse.jface.resource.ResourceManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
@@ -22,24 +18,20 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 
+import es.alba.sweet.EclipseUI;
 import es.alba.sweet.core.IconLoader;
 import es.alba.sweet.core.output.Output;
 
-public class PerspectiveViews {
+public class Views extends AToolControl {
 
-	private Composite		composite;
 	private GridLayout		gridLayout	= new GridLayout();
 
-	private ResourceManager	resManager;
-
-	@Inject
-	EPartService			partService;
+	private EPartService	partService	= EclipseUI.partService();
 
 	@PostConstruct
-	public void createGui(EModelService modelService, MWindow window, Composite parent) {
-		resManager = new LocalResourceManager(JFaceResources.getResources(), parent);
+	public void createGui(Composite parent) {
+		super.set(parent);
 
-		composite = new Composite(parent, SWT.NONE);
 		gridLayout.horizontalSpacing = 0;
 		gridLayout.numColumns = 1;
 		composite.setLayout(gridLayout);
@@ -68,8 +60,11 @@ public class PerspectiveViews {
 		Output.DEBUG.info("es.alba.sweet.toolbar.PerspectiveViews.updateButton", "Button image updated from part visibility");
 	}
 
-	public void initialiseViewsButtons(List<MPart> parts) {
+	public void update(MPerspective activePerspective) {
 		Output.DEBUG.info("es.alba.sweet.toolbar.PerspectiveViews.initialiseViewsButtons", "Creating perspective views in the toolbar");
+
+		List<MPart> parts = EclipseUI.modelService().findElements(activePerspective, null, MPart.class).stream().filter(p -> p.isVisible()).collect(Collectors.toList());
+
 		Display.getDefault().syncExec(new Runnable() {
 			public void run() {
 				gridLayout.numColumns = 1 + parts.size();
@@ -103,7 +98,7 @@ public class PerspectiveViews {
 
 	private Image getImage(MPart part) {
 		ImageDescriptor descriptor = IconLoader.loadFromURI(part.getIconURI());
-		Image image = resManager.createImage(descriptor);
+		Image image = resourceManager.createImage(descriptor);
 		if (partService.isPartVisible(part)) return image;
 		return new Image(Display.getCurrent(), image, SWT.IMAGE_GRAY);
 	}
@@ -123,5 +118,23 @@ public class PerspectiveViews {
 		text = text + " part non visible\nClick for activating the part";
 		return text;
 
+	}
+
+	@Override
+	public void update(PerspectiveConfiguration configuration) {
+		Output.DEBUG.info("es.alba.sweet.toolbar.PerspectiveViews.initialiseViewsButtons", "Creating perspective views in the toolbar");
+		MPerspective perspective = EclipseUI.activePerspective();
+
+		List<MPart> parts = EclipseUI.modelService().findElements(perspective, null, MPart.class).stream().filter(p -> p.isVisible()).collect(Collectors.toList());
+
+		Display.getDefault().syncExec(new Runnable() {
+			public void run() {
+				gridLayout.numColumns = 1 + parts.size();
+				deleteButtons();
+				parts.forEach(a -> addButton(a));
+				composite.pack();
+			}
+		});
+		Output.DEBUG.info("es.alba.sweet.toolbar.PerspectiveViews.initialiseViewsButtons", "perspective views in the toolbar created");
 	}
 }

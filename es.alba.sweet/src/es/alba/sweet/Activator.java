@@ -26,7 +26,8 @@ public class Activator implements BundleActivator {
 	public void start(BundleContext bundleContext) throws Exception {
 		Activator.context = bundleContext;
 		logger();
-		Output.DEBUG.info("es.alba.sweet.Activator.start", "Activator started");
+		Output.DEBUG.info("es.alba.sweet.Activator.start", "Activator started for " + bundleContext.getBundle());
+
 	}
 
 	public void stop(BundleContext bundleContext) throws Exception {
@@ -56,7 +57,6 @@ public class Activator implements BundleActivator {
 			e.printStackTrace();
 
 		}
-		LOGGER.setLevel(Level.INFO);
 	}
 
 	public class MessageFormatter extends Formatter {

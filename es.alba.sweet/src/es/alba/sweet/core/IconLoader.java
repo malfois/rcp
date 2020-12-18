@@ -10,15 +10,15 @@ import java.nio.file.Paths;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.jface.resource.ImageDescriptor;
 
+import es.alba.sweet.core.constant.Directory;
 import es.alba.sweet.core.output.Output;
 
 public class IconLoader {
 
-	public final static String	ICONS				= "icons" + File.separator;
-	public final static String	UNKNOWN_ICON_FILE	= "unknown.png";
+	public final static String UNKNOWN_ICON_FILE = "unknown.png";
 
 	public static ImageDescriptor load(String filename) {
-		URL url = DirectoryLocator.findDirectory(Paths.get(ICONS));
+		URL url = DirectoryLocator.findDirectory(Paths.get(Directory.ICONS));
 		return load(url, filename);
 	}
 
@@ -33,7 +33,7 @@ public class IconLoader {
 		} catch (IOException e) {
 			e.printStackTrace();
 			Output.DEBUG.error("es.alba.sweet.core.IconLoader.loadFromURI", "No file found in " + iconURI);
-			return loadUnknownIcon(DirectoryLocator.findDirectory(Paths.get(ICONS)));
+			return loadUnknownIcon(DirectoryLocator.findDirectory(Paths.get(Directory.ICONS)));
 		}
 	}
 

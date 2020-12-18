@@ -2,30 +2,19 @@
 <plugin>
 
    <extension
+         id="product1"
          point="org.eclipse.core.runtime.products">
       <product
             application="org.eclipse.e4.ui.workbench.swt.E4Application"
-            name="es.alba.sweet">
+            name="sweet">
+         <property
+               name="appName"
+               value="sweet">
+         </property>
          <property
                name="lifeCycleURI"
                value="bundleclass://es.alba.sweet/es.alba.sweet.E4LifeCycle">
          </property>
-         <property
-               name="applicationCSS"
-               value="platform:/plugin/es.alba.sweet/css/default.css">
-         </property>
-         <property
-               name="appName"
-               value="es.alba.sweet">
-         </property>
-      </product>
-   </extension>
-   <extension
-         id="product"
-         point="org.eclipse.core.runtime.products">
-      <product
-            application="org.eclipse.e4.ui.workbench.swt.E4Application"
-            name="es.alba.sweet">
       </product>
    </extension>
 

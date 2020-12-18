@@ -6,8 +6,6 @@ import javax.inject.Inject;
 
 import org.eclipse.swt.widgets.Composite;
 
-import es.alba.sweet.perspective.SPerspective;
-
 public class ScanLegend {
 	@Inject
 	public ScanLegend() {
@@ -15,8 +13,7 @@ public class ScanLegend {
 	}
 
 	@PostConstruct
-	public void postConstruct(Composite parent, SPerspective perspective) {
-		System.out.println(perspective);
+	public void postConstruct(Composite parent) {
 	}
 
 }

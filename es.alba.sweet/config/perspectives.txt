@@ -1,0 +1,7 @@
+{
+  "perspectives" : [ {
+    "id" : "es.alba.sweet.perspective.scan",
+    "layout" : [ "default", "aaa" ],
+    "selectedLayout" : "aaa"
+  } ]
+}
