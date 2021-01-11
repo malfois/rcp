@@ -4,6 +4,7 @@ import java.io.File;
 
 public class Directory {
 
+	// test
 	public final static String	ICONS	= "icons" + File.separator;
 	public final static String	CONFIG	= "config" + File.separator;
 }
