@@ -16,7 +16,6 @@ public class MovingParts {
 	@Inject
 	@Optional
 	public void subscribeTopicElementContainerChildren(@EventTopic(UIEvents.ElementContainer.TOPIC_CHILDREN) Event event) {
-		System.out.println(event);
 		Object element = event.getProperty(EventTags.ELEMENT);
 		if (!(element instanceof MPartStack)) {
 			return;

@@ -36,13 +36,13 @@ public class VisibilityPartListener implements IPartListener {
 
 	@Override
 	public void partHidden(MPart part) {
-		Output.DEBUG.info("es.alba.sweet.handlers.VisibilityPartListener.partHidden", part.getElementId() + "hidden");
+		Output.DEBUG.info("es.alba.sweet.handlers.VisibilityPartListener.partHidden", part.getElementId() + " hidden");
 		updateToolBar(part);
 	}
 
 	@Override
 	public void partVisible(MPart part) {
-		Output.DEBUG.info("es.alba.sweet.handlers.VisibilityPartListener.partHidden", part.getElementId() + "visible");
+		Output.DEBUG.info("es.alba.sweet.handlers.VisibilityPartListener.partVisible", part.getElementId() + " visible");
 		updateToolBar(part);
 	}
 

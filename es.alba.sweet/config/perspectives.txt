@@ -2,6 +2,7 @@
   "perspectives" : [ {
     "id" : "es.alba.sweet.perspective.scan",
     "layout" : [ "default", "aaa" ],
-    "selectedLayout" : "aaa"
-  } ]
+    "selectedLayout" : "default"
+  } ],
+  "selectedPerspective" : "es.alba.sweet.perspective.scan"
 }

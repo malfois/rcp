@@ -18,4 +18,7 @@ public abstract class AToolControl {
 		this.composite = new Composite(parent, SWT.NONE);
 	}
 
+	public Composite getParentComposite() {
+		return composite.getParent();
+	}
 }

@@ -34,6 +34,7 @@ public class Views extends AToolControl {
 
 		gridLayout.horizontalSpacing = 0;
 		gridLayout.numColumns = 1;
+		gridLayout.marginLeft = 30;
 		composite.setLayout(gridLayout);
 
 		Label layout = new Label(composite, SWT.NONE);
@@ -41,13 +42,13 @@ public class Views extends AToolControl {
 	}
 
 	public void updateButton(MPart part) {
-		Output.DEBUG.info("es.alba.sweet.toolbar.PerspectiveViews.updateButton", "updating button image from part visibility");
+		Output.DEBUG.info("es.alba.sweet.toolbar.PerspectiveViews.updateButton", "updating button image from part " + part.getElementId());
 		if (composite.getChildren().length == 1) {
 			Output.DEBUG.info("es.alba.sweet.toolbar.PerspectiveViews.updateButton", "No button yet in the toolbar - No update possible");
 			return;
 		}
 
-		Button button = List.of(composite.getChildren()).stream().filter(p -> (p instanceof Button) && p.getToolTipText().contains(part.getLabel())).map(m -> (Button) m)
+		Button button = List.of(composite.getChildren()).stream().filter(p -> (p instanceof Button)).map(m -> (Button) m).filter(p -> p.getText().equals(part.getLabel()))
 				.findFirst().orElse(null);
 		if (button == null) {
 			Output.DEBUG.error("es.alba.sweet.toolbar.PerspectiveViews.updateButton", "No button with label " + part.getLabel() + " found");
@@ -57,7 +58,9 @@ public class Views extends AToolControl {
 		Image image = getImage(part);
 		button.setImage(image);
 		button.setToolTipText(updateToolTipText(part));
-		Output.DEBUG.info("es.alba.sweet.toolbar.PerspectiveViews.updateButton", "Button image updated from part visibility");
+		button.setSelection(partService.isPartVisible(part));
+
+		Output.DEBUG.info("es.alba.sweet.toolbar.PerspectiveViews.updateButton", "Button image updated from part " + part.getElementId());
 	}
 
 	public void update(MPerspective activePerspective) {
@@ -78,10 +81,14 @@ public class Views extends AToolControl {
 
 	private void addButton(MPart part) {
 		Output.DEBUG.info("es.alba.sweet.toolbar.PerspectiveViews.addButton", "Creating a button for the part " + part.getElementId());
-		Button button = new Button(composite, SWT.PUSH);
+		Button button = new Button(composite, SWT.TOGGLE);
 		button.setToolTipText(updateToolTipText(part));
+		button.setText(part.getLabel());
 		Image image = getImage(part);
 		button.setImage(image);
+		if (partService.isPartVisible(part)) {
+			button.setSelection(true);
+		}
 		button.addSelectionListener(SelectionListener.widgetSelectedAdapter(e -> {
 			boolean visible = partService.isPartVisible(part);
 			if (!visible) {

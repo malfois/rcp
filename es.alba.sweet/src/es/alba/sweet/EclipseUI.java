@@ -11,7 +11,7 @@ public class EclipseUI {
 
 	private static IEclipseContext eclipseContext;
 
-	public EclipseUI(IEclipseContext eclipseContext) {
+	public static void start(IEclipseContext eclipseContext) {
 		EclipseUI.eclipseContext = eclipseContext;
 	}
 

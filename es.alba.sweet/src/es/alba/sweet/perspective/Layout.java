@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -24,11 +25,11 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
-import org.eclipse.nebula.widgets.opal.dialog.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
@@ -49,10 +50,19 @@ public class Layout extends AToolControl {
 	private PerspectiveConfiguration	configuration;
 
 	private Combo						combo;
+	private Label						help;
+	private Button						loadLayout;
+	private Button						saveLayout;
+	private Button						deleteLayout;
+	private Button						renameLayout;
 
-	private ControlDecoration			decorator;
+	private ControlDecoration			decoratorChanged;
 
 	private String						previousSelection;
+
+	private LayoutSelectionAdapter		layoutSelectionAdapter	= new LayoutSelectionAdapter();
+
+	private static boolean				firstSelected			= true;
 
 	@PostConstruct
 	public void createGui(Composite parent) {
@@ -60,54 +70,58 @@ public class Layout extends AToolControl {
 
 		GridLayout compositeLayout = new GridLayout();
 		compositeLayout.horizontalSpacing = 10;
-		compositeLayout.numColumns = 3;
+		compositeLayout.numColumns = 7;
+		compositeLayout.marginLeft = 30;
 		composite.setLayout(compositeLayout);
 
 		Label layout = new Label(composite, SWT.NONE | SWT.BOTTOM);
 		layout.setText("Layout");
 
-		combo = new Combo(composite, SWT.BORDER);
-		combo.addSelectionListener(new SelectionAdapter() {
-			public void widgetDefaultSelected(SelectionEvent e) {
-				System.out.println("widgetDefaultSelected " + combo.getText());
-				System.out.println("widgetDefaultSelected " + e);
-				List<String> items = List.of(combo.getItems());
-				if (!items.contains(combo.getText())) {
-					String layout = combo.getText();
-					combo.add(layout);
-					configuration.getLayout().add(layout);
-					configuration.setSelectedLayout(layout);
-					savePerspective(layout);// save perspective layout
-					decorator.hide();
-					return;
-				}
-
-				// load perspective layout
-				loadPerspective(combo.getText());
-			}
-
-			public void widgetSelected(SelectionEvent e) {
-				System.out.println("widgetSelected " + combo.getText());
-				System.out.println("widgetSelected " + e);
-
-				loadPerspective(combo.getText());
-			}
-
-		});
+		combo = new Combo(composite, SWT.DROP_DOWN | SWT.READ_ONLY);
+		combo.addSelectionListener(layoutSelectionAdapter);
 
 		// create the decoration for the text UI component
-		decorator = new ControlDecoration(combo, SWT.TOP | SWT.LEFT);
+		decoratorChanged = new ControlDecoration(combo, SWT.TOP | SWT.LEFT);
 
 		// re-use an existing image
-		Image image = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_ERROR).getImage();
+		Image image = FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_WARNING).getImage();
 		// set description and image
-		decorator.setDescriptionText("Layout of the perspective has been changed but not saved");
-		decorator.setImage(image);
-		decorator.hide();
+		decoratorChanged.setDescriptionText("Layout of the perspective has been changed but not saved");
+		decoratorChanged.setImage(image);
+		decoratorChanged.hide();
 
-		Button save = new Button(composite, SWT.PUSH);
-		save.setToolTipText("Save the perspective layout into a file");
-		save.setImage(resourceManager.createImage(IconLoader.load("save.png")));
+		loadLayout = new Button(composite, SWT.PUSH);
+		loadLayout.setImage(resourceManager.createImage(IconLoader.load("load.gif")));
+		loadLayout.setToolTipText("Load the current layout");
+		loadLayout.addSelectionListener(new LoadlayoutAdapter());
+
+		saveLayout = new Button(composite, SWT.PUSH);
+		saveLayout.setImage(resourceManager.createImage(IconLoader.load("save.png")));
+		saveLayout.setToolTipText("Save the current layout");
+		saveLayout.addSelectionListener(new SaveLayoutAdapter());
+
+		deleteLayout = new Button(composite, SWT.PUSH);
+		deleteLayout.setImage(resourceManager.createImage(IconLoader.load("delete.png")));
+		deleteLayout.setToolTipText("Delete the current layout in the list");
+		deleteLayout.addSelectionListener(new DeleteLayoutAdapter());
+
+		renameLayout = new Button(composite, SWT.PUSH);
+		renameLayout.setImage(resourceManager.createImage(IconLoader.load("rename.png")));
+		renameLayout.setToolTipText("Rename the current layout");
+
+		help = new Label(composite, SWT.NONE);
+		GridData imageGridData = new GridData();
+		imageGridData.widthHint = 20;
+		help.setLayoutData(imageGridData);
+		// set description
+		String text = "Typing a name will:\n";
+		text = text + "\tLoad the associated layout if the name is in the list\n";
+		text = text + "\tSave the associated layout if the name is NOT in the list\n\n";
+		text = text + "Selecting a name in the list will load the associated layout\n\n";
+		text = text + "!!! The layout named default cannot be overwritten\n\n";
+		text = text + "!!! Only characters and digits are allowed. All other characters will be removed";
+		help.setToolTipText(text);
+		help.setImage(resourceManager.createImage(IconLoader.load("info.png")));
 
 	}
 
@@ -117,18 +131,22 @@ public class Layout extends AToolControl {
 			public void run() {
 				combo.setItems(configuration.layoutToArray());
 				combo.setText(configuration.getSelectedLayout());
-				combo.clearSelection();
 				composite.pack();
+				previousSelection = combo.getText();
+				if (combo.getText().equals(PerspectiveConfiguration.DEFAULT)) {
+					deleteLayout.setEnabled(false);
+				}
 			}
 		});
 	}
 
 	public void setDecoratorDirty() {
-		decorator.show();
-		this.previousSelection = combo.getText();
+		decoratorChanged.show();
 	}
 
 	private void savePerspective(String layoutName) {
+		Output.DEBUG.info("es.alba.sweet.perspective.Layout.savePerspective", "layout name will be saved as " + layoutName);
+
 		// store model of the active perspective
 		MPerspective activePerspective = EclipseUI.activePerspective();
 		if (activePerspective == null) {
@@ -166,12 +184,29 @@ public class Layout extends AToolControl {
 	}
 
 	private void loadPerspective(String layoutName) {
-		if (decorator.isVisible()) {
-			final boolean confirm = Dialog.isConfirmed("Are you sure you want to quit?", "Please do not quit yet!");
-			System.out.println("Choice is..." + confirm);
-			// MessageDialog.openInformation(Display.getCurrent().getActiveShell(), "Perspective layout changed but not saved", "Do you want to save the layout " + layoutName +
-			// "?");
+		// get the parent perspective stack, so that the loaded perspective can be added to it.
+		MPerspective activePerspective = EclipseUI.activePerspective();
+		MElementContainer<MUIElement> perspectiveParent = activePerspective.getParent();
+
+		MPerspective loadedPerspective = (layoutName.equals(PerspectiveConfiguration.DEFAULT)) ? loadDefaultPerspective(this.configuration.getId())
+				: loadPerspectiveFromFile(layoutName);
+
+		// remove the current perspective, which should be replaced by the loaded one
+		List<MPerspective> alreadyPresentPerspective = EclipseUI.modelService().findElements(EclipseUI.window(), loadedPerspective.getElementId(), MPerspective.class, null);
+		for (MPerspective perspective : alreadyPresentPerspective) {
+			EclipseUI.modelService().removePerspectiveModel(perspective, EclipseUI.window());
 		}
+
+		// add the loaded perspective and switch to it
+		perspectiveParent.getChildren().add(loadedPerspective);
+		EclipseUI.partService().switchPerspective(loadedPerspective);
+
+		String message = (layoutName.equals(PerspectiveConfiguration.DEFAULT)) ? "Default perspective loaded"
+				: "Perspective " + getFilename(configuration.getLabel(), layoutName) + " loaded";
+		Output.MESSAGE.info("es.alba.sweet.perspective.Layout.loadPerspective", message);
+	}
+
+	private MPerspective loadPerspectiveFromFile(String layoutName) {
 		// create a resource, which is able to store e4 model elements
 		E4XMIResourceFactory e4xmiResourceFactory = new E4XMIResourceFactory();
 		Resource resource = e4xmiResourceFactory.createResource(null);
@@ -183,32 +218,17 @@ public class Layout extends AToolControl {
 
 			if (!resource.getContents().isEmpty()) {
 
-				// after the model element is loaded it can be obtained from the
-				// contents of the resource
+				// after the model element is loaded it can be obtained from the contents of the resource
 				MPerspective loadedPerspective = (MPerspective) resource.getContents().get(0);
 
-				// get the parent perspective stack, so that the loaded
-				// perspective can be added to it.
-				MPerspective activePerspective = EclipseUI.activePerspective();
-				MElementContainer<MUIElement> perspectiveParent = activePerspective.getParent();
-
-				// remove the current perspective, which should be replaced by
-				// the loaded one
-				List<MPerspective> alreadyPresentPerspective = EclipseUI.modelService().findElements(EclipseUI.window(), loadedPerspective.getElementId(), MPerspective.class,
-						null);
-				for (MPerspective perspective : alreadyPresentPerspective) {
-					EclipseUI.modelService().removePerspectiveModel(perspective, EclipseUI.window());
-				}
-
-				// add the loaded perspective and switch to it
-				perspectiveParent.getChildren().add(loadedPerspective);
-
-				EclipseUI.partService().switchPerspective(loadedPerspective);
-				Output.MESSAGE.info("es.alba.sweet.perspective.Layout.loadPerspective", "Perspective " + getFilename(configuration.getLabel(), layoutName) + " loaded");
+				return loadedPerspective;
 			}
 		} catch (IOException e) {
 			Output.MESSAGE.error("es.alba.sweet.perspective.Layout.loadPerspective", "Error loading perspective " + getFilename(configuration.getLabel(), layoutName));
+			MPerspective loadedPerspective = loadDefaultPerspective(this.configuration.getId());
+			return loadedPerspective;
 		}
+		return null;
 	}
 
 	public MPerspective loadDefaultPerspective(String perspectiveId) {
@@ -220,7 +240,6 @@ public class Layout extends AToolControl {
 		if (element instanceof MPerspective) {
 			MPerspective perspective = (MPerspective) element;
 			if (perspective.isVisible()) {
-				Output.MESSAGE.info("es.alba.sweet.perspective.Layout.loadDefaultPerspective", perspective.getIconURI());
 				MPerspective perspectiveClone = (MPerspective) modelService.cloneSnippet(application, perspective.getElementId(), null);
 
 				// Find the output part stack
@@ -251,6 +270,125 @@ public class Layout extends AToolControl {
 		String filename = perspectiveName.toLowerCase() + "_" + layoutName + ".xml";
 		Path currentDir = DirectoryLocator.findPath(Directory.CONFIG);
 		return Paths.get(currentDir.toString(), filename);
+	}
+
+	private class LayoutSelectionAdapter extends SelectionAdapter {
+
+		// Selecting a name in the list
+		public void widgetSelected(SelectionEvent e) {
+			String selectedLayout = combo.getText();
+			// if (selectedLayout.equals(previousSelection) && firstSelected) {
+			// firstSelected = false;
+			// return;
+			// }
+			if (selectedLayout.equals(previousSelection) && !decoratorChanged.isVisible()) return;
+
+			if (decoratorChanged.isVisible()) {
+				String savedLayoutName = LayoutModificationDialog.SaveConfirmation(selectedLayout);
+				if (savedLayoutName != null) {
+					savePerspective(savedLayoutName);
+					List<String> items = List.of(combo.getItems());
+					if (!items.contains(savedLayoutName)) combo.add(savedLayoutName);
+					configuration.add(savedLayoutName);
+				}
+			}
+
+			loadPerspective(selectedLayout);
+			previousSelection = selectedLayout;
+			decoratorChanged.hide();
+
+			if (selectedLayout.equals(PerspectiveConfiguration.DEFAULT)) {
+				deleteLayout.setEnabled(false);
+				return;
+			}
+			deleteLayout.setEnabled(true);
+
+		}
+	}
+
+	private class LoadlayoutAdapter extends SelectionAdapter {
+
+		public void widgetSelected(SelectionEvent e) {
+			String selectedLayout = combo.getText();
+
+			if (selectedLayout.equals(previousSelection) && !decoratorChanged.isVisible()) return;
+
+			if (decoratorChanged.isVisible()) {
+				String savedLayoutName = LayoutModificationDialog.SaveConfirmation(previousSelection);
+				if (savedLayoutName != null) {
+					savePerspective(savedLayoutName);
+					List<String> items = List.of(combo.getItems());
+					if (!items.contains(savedLayoutName)) combo.add(savedLayoutName);
+					configuration.add(savedLayoutName);
+				}
+			}
+
+			loadPerspective(selectedLayout);
+			previousSelection = selectedLayout;
+			decoratorChanged.hide();
+
+			if (selectedLayout.equals(PerspectiveConfiguration.DEFAULT)) {
+				deleteLayout.setEnabled(false);
+				return;
+			}
+			deleteLayout.setEnabled(true);
+		}
+	}
+
+	private class SaveLayoutAdapter extends SelectionAdapter {
+
+		// Selecting a name in the list
+		public void widgetSelected(SelectionEvent e) {
+			String selectedLayout = combo.getText();
+			String savedLayoutName = LayoutModificationDialog.CheckLayoutName(selectedLayout);
+
+			if (savedLayoutName == null) {
+				Output.DEBUG.info("es.alba.sweet.perspective.Layout.SavelayoutAdapter.widgetSelected", "Layout will not be saved");
+				return;
+			}
+
+			savePerspective(savedLayoutName);
+
+			List<String> items = List.of(combo.getItems());
+			if (!items.contains(savedLayoutName)) combo.add(savedLayoutName);
+			combo.setText(savedLayoutName);
+			decoratorChanged.hide();
+			configuration.add(savedLayoutName);
+			configuration.setSelectedLayout(savedLayoutName);
+			previousSelection = savedLayoutName;
+
+			if (selectedLayout.equals(PerspectiveConfiguration.DEFAULT)) {
+				deleteLayout.setEnabled(false);
+				return;
+			}
+			deleteLayout.setEnabled(true);
+
+		}
+	}
+
+	private class DeleteLayoutAdapter extends SelectionAdapter {
+
+		// Selecting a name in the list
+		public void widgetSelected(SelectionEvent e) {
+			String selectedLayout = combo.getText();
+
+			DeleteLayoutChoice delete = LayoutModificationDialog.deleteLayout(selectedLayout);
+
+			if (delete.isButtonChoice()) {
+				System.out.println(combo.getSelectionIndex());
+				combo.remove(selectedLayout);
+
+				if (delete.isDiskChoice()) {
+					MPerspective activePerspective = EclipseUI.activePerspective();
+					Path path = getFilename(activePerspective.getLabel(), selectedLayout).toAbsolutePath();
+					try {
+						Files.delete(path);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+			}
+		}
 	}
 
 }

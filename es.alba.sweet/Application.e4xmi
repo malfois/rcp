@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_6wlLcMgZEeSyMNYR5xypkQ" elementId="es.alba.sweet.application" bindingContexts="_6wlLecgZEeSyMNYR5xypkQ">
-  <children xsi:type="basic:TrimmedWindow" xmi:id="_6wlLccgZEeSyMNYR5xypkQ" elementId="es.alba.sweet.window.main" label="Sweet - 26th October 2020 - Version 2.0 " iconURI="platform:/plugin/es.alba.sweet/icons/scan.png" width="800" height="600">
+  <children xsi:type="basic:TrimmedWindow" xmi:id="_6wlLccgZEeSyMNYR5xypkQ" elementId="es.alba.sweet.window.main" label="Sweet - 26th October 2020 - Version 2.0 " iconURI="platform:/plugin/es.alba.sweet/icons/scan.png" width="1100" height="700">
     <children xsi:type="advanced:PerspectiveStack" xmi:id="_lKM84DCNEeu2c9HBp9UyBQ" elementId="es.alba.sweet.perspectivestack"/>
     <trimBars xmi:id="_6wlLlcgZEeSyMNYR5xypkQ" elementId="es.alba.sweet.trimbar.top">
       <children xsi:type="menu:ToolControl" xmi:id="_-gnYADsAEeu6T-2t2WI8Eg" elementId="es.alba.sweet.toolcontrol.perspective.name" contributionURI="bundleclass://es.alba.sweet/es.alba.sweet.perspective.Name"/>
@@ -12,8 +12,8 @@
     <children xmi:id="_6wlLesgZEeSyMNYR5xypkQ" elementId="org.eclipse.ui.contexts.window" name="In Windows"/>
     <children xmi:id="_6wlLe8gZEeSyMNYR5xypkQ" elementId="org.eclipse.ui.contexts.dialog" name="In Dialogs"/>
   </rootContext>
-  <descriptors xmi:id="_eb5_QDCVEeu_5dru8P2SYg" elementId="es.alba.sweet.partdescriptor.output.message" label="Message" iconURI="platform:/plugin/es.alba.sweet/icons/consoles_view.png" allowMultiple="true" category="" closeable="true" contributionURI="bundleclass://es.alba.sweet/es.alba.sweet.parts.MessageViewer"/>
-  <descriptors xmi:id="_mNP0oDCVEeu_5dru8P2SYg" elementId="es.alba.sweet.partdescriptor.output.debug" label="Debug" iconURI="platform:/plugin/es.alba.sweet/icons/debug_view_auto.png" allowMultiple="true" category="" closeable="true" contributionURI="bundleclass://es.alba.sweet/es.alba.sweet.parts.DebugViewer"/>
+  <descriptors xmi:id="_eb5_QDCVEeu_5dru8P2SYg" elementId="es.alba.sweet.partdescriptor.output.message" label="Message" iconURI="platform:/plugin/es.alba.sweet/icons/load.gif" allowMultiple="true" category="" closeable="true" contributionURI="bundleclass://es.alba.sweet/es.alba.sweet.parts.MessageViewer"/>
+  <descriptors xmi:id="_mNP0oDCVEeu_5dru8P2SYg" elementId="es.alba.sweet.partdescriptor.output.debug" label="Debug" iconURI="platform:/plugin/es.alba.sweet/icons/debug.png" allowMultiple="true" category="" closeable="true" contributionURI="bundleclass://es.alba.sweet/es.alba.sweet.parts.DebugViewer"/>
   <snippets xsi:type="advanced:Perspective" xmi:id="_p3M3gDCNEeu2c9HBp9UyBQ" elementId="es.alba.sweet.perspective.scan" label="Scan" iconURI="platform:/plugin/es.alba.sweet/icons/scan.png">
     <children xsi:type="basic:PartSashContainer" xmi:id="_fAmuUDDCEeu_5dru8P2SYg" elementId="es.alba.sweet.partsashcontainer.2">
       <children xsi:type="basic:PartSashContainer" xmi:id="_bleW8DCQEeu_5dru8P2SYg" elementId="es.alba.sweet.partsashcontainer.0" horizontal="true">

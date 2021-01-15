@@ -3,7 +3,6 @@
 
 <product name="sweet" uid="es.alba.sweet" id="es.alba.sweet.product1" application="org.eclipse.e4.ui.workbench.swt.E4Application" useFeatures="false" includeLaunchers="true">
 
-
    <configIni use="default">
    </configIni>
 
@@ -14,17 +13,14 @@
 
    <windowImages/>
 
-
    <launcher>
       <win useIco="false">
          <bmp/>
       </win>
    </launcher>
 
-
    <vm>
    </vm>
-
 
    <plugins>
       <plugin id="com.fasterxml.jackson.core.jackson-annotations"/>

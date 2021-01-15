@@ -30,11 +30,19 @@ public class MovingPartListener implements EventHandler {
 			// check new value, because we check for addition and old value will be null
 			Object newValue = event.getProperty(EventTags.NEW_VALUE);
 			if (newValue instanceof MPart) {
-				Output.DEBUG.info("es.alba.sweet.handlers.MovingPartListener.handleEvent", "Setting the combo box dirty");
-				Layout perspectivelayout = toolbar.getLayoutComponent();
-				perspectivelayout.setDecoratorDirty();
+				MPart part = (MPart) newValue;
+				Output.DEBUG.info("es.alba.sweet.handlers.class_name.handleEvent", "Added " + part.getLabel() + " at position: " + event.getProperty(EventTags.POSITION));
+			}
+		} else if (UIEvents.isREMOVE(event)) {
+			// check old value, because we check for remove and new value will be null
+			Object oldValue = event.getProperty(EventTags.OLD_VALUE);
+			if (oldValue instanceof MPart) {
+				MPart part = (MPart) oldValue;
+				Output.DEBUG.info("es.alba.sweet.handlers.class_name.handleEvent", "Removed " + part.getLabel() + " from position: " + event.getProperty(EventTags.POSITION));
 			}
 		}
+		Layout perspectivelayout = toolbar.getLayoutComponent();
+		perspectivelayout.setDecoratorDirty();
 	}
 
 }

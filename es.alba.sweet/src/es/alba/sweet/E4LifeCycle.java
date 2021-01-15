@@ -17,23 +17,21 @@ public class E4LifeCycle {
 
 	@PostContextCreate
 	void postContextCreate(IEclipseContext workbenchContext) {
+		Output.DEBUG.info("es.alba.sweet.E4LifeCycle.postContextCreate", "OK");
 	}
 
 	@PreSave
 	void preSave(IEclipseContext workbenchContext) {
 		System.out.println(this.getClass() + " presave");
 		ToolBar toolBar = workbenchContext.get(ToolBar.class);
-		System.out.println(workbenchContext + " " + toolBar.getJsonConfiguration().getConfiguration());
+		toolBar.getJsonConfiguration().print();
 		toolBar.getJsonConfiguration().write();
 	}
 
 	@ProcessAdditions
 	void processAdditions(IEclipseContext workbenchContext) {
 		Output.DEBUG.info("es.alba.sweet.E4LifeCycle.processAdditions", "Injecting " + ToolBar.class.getSimpleName() + " in context " + workbenchContext);
-		new EclipseUI(workbenchContext);
-		// EModelService modelService = workbenchContext.get(EModelService.class);
-		// EPartService partService = workbenchContext.get(EPartService.class);
-		// MApplication application = workbenchContext.get(MApplication.class);
+		EclipseUI.start(workbenchContext);
 
 		ToolBar toolBar = new ToolBar();
 		workbenchContext.set(ToolBar.class, toolBar);

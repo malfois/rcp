@@ -5,6 +5,9 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import es.alba.sweet.core.constant.Id;
+import es.alba.sweet.core.output.Output;
+
 public class PerspectiveConfiguration {
 
 	public final static String	DEFAULT	= "default";
@@ -18,6 +21,7 @@ public class PerspectiveConfiguration {
 	public PerspectiveConfiguration() {
 		layout.add(DEFAULT);
 		selectedLayout = DEFAULT;
+		id = Id.SCAN_PERSPECTIVE;
 	}
 
 	public PerspectiveConfiguration(String id) {
@@ -62,6 +66,17 @@ public class PerspectiveConfiguration {
 			selectedLayout = this.layout.get(0);
 		}
 		this.selectedLayout = selectedLayout;
+	}
+
+	@JsonIgnore
+	public void add(String layoutName) {
+		if (this.layout.contains(layoutName)) {
+			Output.DEBUG.info("es.alba.sweet.perspective.PerspectiveConfiguration.add", layoutName + " already in the list. It will not be added");
+			return;
+		}
+
+		this.layout.add(layoutName);
+		Output.DEBUG.info("es.alba.sweet.perspective.PerspectiveConfiguration.add", layoutName + " added to the list");
 	}
 
 	@JsonIgnore

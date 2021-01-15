@@ -4,18 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.eclipse.e4.core.di.annotations.Creatable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import es.alba.sweet.configuration.AFileConfiguration;
+import es.alba.sweet.core.constant.Id;
 import es.alba.sweet.core.output.Output;
 
-@Creatable
 public class Configuration extends AFileConfiguration {
 
-	private List<PerspectiveConfiguration> perspectives = new ArrayList<>();
+	private List<PerspectiveConfiguration>	perspectives	= new ArrayList<>();
+
+	private String							selectedPerspectiveId;
 
 	public Configuration() {
 		super("perspectives");
+		perspectives.add(new PerspectiveConfiguration(Id.SCAN_PERSPECTIVE));
 	}
 
 	public List<PerspectiveConfiguration> getPerspectives() {
@@ -37,16 +40,29 @@ public class Configuration extends AFileConfiguration {
 		return result.get();
 	}
 
-	public void add(PerspectiveConfiguration perspective) {
-		Optional<PerspectiveConfiguration> result = perspectives.stream().filter(p -> p.getId().equals(perspective.getId())).findFirst();
-
-		if (!result.isPresent()) perspectives.add(perspective);
-		Output.DEBUG.error("es.alba.sweet.perspective.Configuration.add", "Perspective " + perspective.getId() + " already configured. New configuration not added");
+	public String getSelectedPerspective() {
+		if ((selectedPerspectiveId == null || selectedPerspectiveId.length() == 0) && !perspectives.isEmpty()) selectedPerspectiveId = perspectives.get(0).getId();
+		return selectedPerspectiveId;
 	}
 
-	@Override
-	public String toString() {
-		return "Configuration [perspectives=" + perspectives + "]";
+	public void setSelectedPerspective(String selectedPerspective) {
+		this.selectedPerspectiveId = selectedPerspective;
+	}
+
+	@JsonIgnore
+	public PerspectiveConfiguration getSelectedPerspectiveConfiguration() {
+		return getPerspective(selectedPerspectiveId);
+	}
+
+	public boolean add(PerspectiveConfiguration perspective) {
+		Optional<PerspectiveConfiguration> result = perspectives.stream().filter(p -> p.getId().equals(perspective.getId())).findFirst();
+
+		if (!result.isPresent()) {
+			perspectives.add(perspective);
+			return true;
+		}
+		Output.DEBUG.error("es.alba.sweet.perspective.Configuration.add", "Perspective " + perspective.getId() + " already configured. New configuration not added");
+		return false;
 	}
 
 }
