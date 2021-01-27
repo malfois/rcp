@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ASCII"?>
+<advanced:Perspective xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmi:id="_9QD48WC5EeuC7rZoWk131A" elementId="es.alba.sweet.perspective.scan" contributorURI="platform:/plugin/es.alba.sweet" selectedElement="_9QD48mC5EeuC7rZoWk131A" label="Scan" iconURI="platform:/plugin/es.alba.sweet/icons/scan.png">
+  <tags>release</tags>
+  <children xsi:type="basic:PartSashContainer" xmi:id="_9QD48mC5EeuC7rZoWk131A" elementId="es.alba.sweet.partsashcontainer.2" contributorURI="platform:/plugin/es.alba.sweet" selectedElement="_9QEgAGC5EeuC7rZoWk131A">
+    <children xsi:type="basic:PartSashContainer" xmi:id="_9QEgAGC5EeuC7rZoWk131A" elementId="es.alba.sweet.partsashcontainer.0" contributorURI="platform:/plugin/es.alba.sweet" containerData="5000" selectedElement="_9QEgBWC5EeuC7rZoWk131A" horizontal="true">
+      <children xsi:type="basic:PartStack" xmi:id="_9QEgAWC5EeuC7rZoWk131A" elementId="es.alba.sweet.partstack.scan.files" contributorURI="platform:/plugin/es.alba.sweet" toBeRendered="false">
+        <tags>dev</tags>
+        <children xsi:type="basic:Part" xmi:id="_9QEgAmC5EeuC7rZoWk131A" elementId="es.alba.sweet.part.scan.directory" contributorURI="platform:/plugin/es.alba.sweet" contributionURI="bundleclass://es.alba.sweet/es.alba.sweet.scan.files.Directory" label="Directory" iconURI="platform:/plugin/es.alba.sweet/icons/folder.png" closeable="true">
+          <tags>dev</tags>
+        </children>
+        <children xsi:type="basic:Part" xmi:id="_9QEgA2C5EeuC7rZoWk131A" elementId="es.alba.sweet.part.scan.files" contributorURI="platform:/plugin/es.alba.sweet" contributionURI="bundleclass://es.alba.sweet/es.alba.sweet.scan.files.Files" label="Files" iconURI="platform:/plugin/es.alba.sweet/icons/file.png" closeable="true">
+          <tags>dev</tags>
+        </children>
+        <children xsi:type="basic:Part" xmi:id="_9QEgBGC5EeuC7rZoWk131A" elementId="es.alba.sweet.part.scan.favorite" contributorURI="platform:/plugin/es.alba.sweet" contributionURI="bundleclass://es.alba.sweet/es.alba.sweet.scan.files.Favorites" label="Favorites" iconURI="platform:/plugin/es.alba.sweet/icons/favorite.png" closeable="true">
+          <tags>dev</tags>
+        </children>
+      </children>
+      <children xsi:type="basic:PartSashContainer" xmi:id="_9QEgBWC5EeuC7rZoWk131A" elementId="es.alba.sweet.partsashcontainer.1" contributorURI="platform:/plugin/es.alba.sweet" containerData="5000" selectedElement="_9QEgBmC5EeuC7rZoWk131A">
+        <children xsi:type="basic:PartSashContainer" xmi:id="_9QEgBmC5EeuC7rZoWk131A" containerData="5000" selectedElement="_9QEgB2C5EeuC7rZoWk131A">
+          <children xsi:type="basic:PartStack" xmi:id="_9QEgB2C5EeuC7rZoWk131A" elementId="PartStack@66fbc5e7" containerData="5000" selectedElement="_9QEgCGC5EeuC7rZoWk131A">
+            <tags>active</tags>
+            <children xsi:type="basic:Part" xmi:id="_9QEgCGC5EeuC7rZoWk131A" elementId="es.alba.sweet.part.scan.edgelegend" contributorURI="platform:/plugin/es.alba.sweet" contributionURI="bundleclass://es.alba.sweet/es.alba.sweet.scan.graph.EdgeLegend" label="Edge Legend" iconURI="platform:/plugin/es.alba.sweet/icons/legend.png" closeable="true">
+              <tags>release</tags>
+              <tags>active</tags>
+            </children>
+          </children>
+          <children xsi:type="basic:PartStack" xmi:id="_9QEgCWC5EeuC7rZoWk131A" elementId="es.alba.sweet.partstack.scan.graph" contributorURI="platform:/plugin/es.alba.sweet" containerData="5000" selectedElement="_9QEgCmC5EeuC7rZoWk131A">
+            <tags>release</tags>
+            <children xsi:type="basic:Part" xmi:id="_9QEgCmC5EeuC7rZoWk131A" elementId="es.alba.sweet.part.scan.graph" contributorURI="platform:/plugin/es.alba.sweet" contributionURI="bundleclass://es.alba.sweet/es.alba.sweet.scan.graph.Scan" label="Scan" iconURI="platform:/plugin/es.alba.sweet/icons/gaussian.png" closeable="true">
+              <tags>release</tags>
+            </children>
+            <children xsi:type="basic:Part" xmi:id="_9QEgC2C5EeuC7rZoWk131A" elementId="es.alba.sweet.part.scan.legend" contributorURI="platform:/plugin/es.alba.sweet" contributionURI="bundleclass://es.alba.sweet/es.alba.sweet.scan.graph.ScanLegend" label="Scan Legend" iconURI="platform:/plugin/es.alba.sweet/icons/legend.png" closeable="true">
+              <tags>release</tags>
+            </children>
+          </children>
+        </children>
+        <children xsi:type="basic:PartStack" xmi:id="_9QEgDGC5EeuC7rZoWk131A" elementId="es.alba.sweet.partstack.scan edge" contributorURI="platform:/plugin/es.alba.sweet" containerData="5000" selectedElement="_9QEgDWC5EeuC7rZoWk131A">
+          <tags>release</tags>
+          <children xsi:type="basic:Part" xmi:id="_9QEgDWC5EeuC7rZoWk131A" elementId="es.alba.sweet.part.scan.edge" contributorURI="platform:/plugin/es.alba.sweet" contributionURI="bundleclass://es.alba.sweet/es.alba.sweet.scan.graph.Edge" label="Edge" iconURI="platform:/plugin/es.alba.sweet/icons/edge.png" closeable="true">
+            <tags>release</tags>
+          </children>
+        </children>
+      </children>
+    </children>
+    <children xsi:type="basic:PartStack" xmi:id="_9QEgDmC5EeuC7rZoWk131A" elementId="es.alba.sweet.partstack.scan.output" contributorURI="platform:/plugin/es.alba.sweet" containerData="5000" selectedElement="_9QEgD2C5EeuC7rZoWk131A">
+      <tags>release</tags>
+      <children xsi:type="basic:Part" xmi:id="_9QEgD2C5EeuC7rZoWk131A" elementId="es.alba.sweet.partdescriptor.output.message" contributorURI="platform:/plugin/es.alba.sweet" contributionURI="bundleclass://es.alba.sweet/es.alba.sweet.parts.output.MessageViewer" label="Message" iconURI="platform:/plugin/es.alba.sweet/icons/console.png" closeable="true">
+        <tags>release</tags>
+      </children>
+      <children xsi:type="basic:Part" xmi:id="_9QEgEGC5EeuC7rZoWk131A" elementId="es.alba.sweet.partdescriptor.output.debug" contributorURI="platform:/plugin/es.alba.sweet" contributionURI="bundleclass://es.alba.sweet/es.alba.sweet.parts.output.DebugViewer" label="Debug" iconURI="platform:/plugin/es.alba.sweet/icons/debug.png" closeable="true">
+        <tags>release</tags>
+      </children>
+    </children>
+  </children>
+</advanced:Perspective>
