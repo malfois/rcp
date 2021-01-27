@@ -6,8 +6,9 @@ import org.eclipse.e4.ui.workbench.lifecycle.PreSave;
 import org.eclipse.e4.ui.workbench.lifecycle.ProcessAdditions;
 import org.eclipse.e4.ui.workbench.lifecycle.ProcessRemovals;
 
+import es.alba.sweet.configuration.Json;
 import es.alba.sweet.core.output.Output;
-import es.alba.sweet.perspective.ToolBar;
+import es.alba.sweet.perspective.Configuration;
 
 /**
  * This is a stub implementation containing e4 LifeCycle annotated methods.<br />
@@ -20,22 +21,27 @@ public class E4LifeCycle {
 		Output.DEBUG.info("es.alba.sweet.E4LifeCycle.postContextCreate", "OK");
 	}
 
+	@SuppressWarnings("unchecked")
 	@PreSave
 	void preSave(IEclipseContext workbenchContext) {
 		System.out.println(this.getClass() + " presave");
-		ToolBar toolBar = workbenchContext.get(ToolBar.class);
-		toolBar.getJsonConfiguration().print();
-		toolBar.getJsonConfiguration().write();
+
+		Json<Configuration> jsonConfiguration = workbenchContext.get(Json.class);
+		jsonConfiguration.print();
+		// ToolBar toolBar = workbenchContext.get(ToolBar.class);
+		// toolBar.getJsonConfiguration().print();
+		// toolBar.getJsonConfiguration().write();
 	}
 
 	@ProcessAdditions
 	void processAdditions(IEclipseContext workbenchContext) {
-		Output.DEBUG.info("es.alba.sweet.E4LifeCycle.processAdditions", "Injecting " + ToolBar.class.getSimpleName() + " in context " + workbenchContext);
+		Output.DEBUG.info("es.alba.sweet.E4LifeCycle.processAdditions", "Injecting " + Json.class.getSimpleName() + " in context " + workbenchContext);
 		EclipseUI.start(workbenchContext);
 
-		ToolBar toolBar = new ToolBar();
-		workbenchContext.set(ToolBar.class, toolBar);
-		Output.DEBUG.info("es.alba.sweet.E4LifeCycle.processAdditions", ToolBar.class.getSimpleName() + " injected in context " + workbenchContext);
+		Json<Configuration> jsonConfiguration = new Json<>(new Configuration());
+		jsonConfiguration.read();
+		workbenchContext.set(Json.class, jsonConfiguration);
+		Output.DEBUG.info("es.alba.sweet.E4LifeCycle.processAdditions", Json.class.getSimpleName() + " injected in context " + workbenchContext);
 	}
 
 	@ProcessRemovals

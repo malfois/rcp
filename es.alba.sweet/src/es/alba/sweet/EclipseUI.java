@@ -4,8 +4,11 @@ import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.e4.ui.model.application.ui.advanced.MPerspective;
 import org.eclipse.e4.ui.model.application.ui.basic.MTrimmedWindow;
+import org.eclipse.e4.ui.model.application.ui.menu.MToolControl;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
+
+import es.alba.sweet.core.constant.Id;
 
 public class EclipseUI {
 
@@ -33,6 +36,10 @@ public class EclipseUI {
 
 	public static MPerspective activePerspective() {
 		return modelService().getActivePerspective(window());
+	}
+
+	public static MToolControl getPerspectiveToolControl() {
+		return (MToolControl) modelService().find(Id.PERSPECTIVE_TOOL_CONTROL, window());
 	}
 
 }

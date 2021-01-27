@@ -5,10 +5,11 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import es.alba.sweet.AModelObject;
 import es.alba.sweet.core.constant.Id;
 import es.alba.sweet.core.output.Output;
 
-public class PerspectiveConfiguration {
+public class PerspectiveConfiguration extends AModelObject {
 
 	public final static String	DEFAULT	= "default";
 
@@ -55,17 +56,17 @@ public class PerspectiveConfiguration {
 	}
 
 	public String getSelectedLayout() {
-		if (selectedLayout == null || !this.getLayout().contains(selectedLayout)) {
-			selectedLayout = this.layout.get(0);
-		}
+		// if (selectedLayout == null || !this.getLayout().contains(selectedLayout)) {
+		// this.setSelectedLayout(selectedLayout);
+		// }
 		return selectedLayout;
 	}
 
 	public void setSelectedLayout(String selectedLayout) {
 		if (!this.getLayout().contains(selectedLayout)) {
-			selectedLayout = this.layout.get(0);
+			selectedLayout = DEFAULT;
 		}
-		this.selectedLayout = selectedLayout;
+		firePropertyChange("selectedLayout", this.selectedLayout, this.selectedLayout = selectedLayout);
 	}
 
 	@JsonIgnore

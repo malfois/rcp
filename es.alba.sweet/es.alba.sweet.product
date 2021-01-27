@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="sweet" uid="es.alba.sweet" id="es.alba.sweet.product1" application="org.eclipse.e4.ui.workbench.swt.E4Application" useFeatures="false" includeLaunchers="true">
+<product name="sweet" uid="es.alba.sweet1" id="es.alba.sweet.product1" application="org.eclipse.e4.ui.workbench.swt.E4Application" useFeatures="false" includeLaunchers="true">
 
    <configIni use="default">
    </configIni>

@@ -18,17 +18,18 @@ public class LayoutModificationDialog {
 
 	}
 
-	private static String inputDialog(String layoutName) {
+	public static String inputDialog(String layoutName) {
 		boolean rejected = rejected(layoutName);
 
 		String restrictions = "Only characters or digits are allowed.\nAny other characters will be removed";
 
-		String message = "Empty name or default are NOT allowed\n" + restrictions;
+		String message = "You can NOT overwrite the layout name default\n" + restrictions;
+		if (layoutName.length() == 0) message = "You must type a name\n" + restrictions;
 
 		String input = (rejected) ? "" : layoutName;
 		while (rejected) {
 			Output.DEBUG.info("es.alba.sweet.perspective.LayoutModificationDialog.inputDialog", input + "not accepted. Asking for a new name");
-			input = Dialog.ask("Enter the name of the new layout", message, input);
+			input = Dialog.ask("Enter the name of the new layout", message, "");
 
 			// cancel button has been pushed
 			if (input == null) {
@@ -39,12 +40,6 @@ public class LayoutModificationDialog {
 			input = input.replaceAll("[^A-Za-z0-9]", "").trim();
 
 			rejected = rejected(input);
-			if (rejected(input)) {
-				Output.DEBUG.info("es.alba.sweet.perspective.LayoutModificationDialog.inputDialog", "Input " + input + " not allowed.");
-				if (input.equals(PerspectiveConfiguration.DEFAULT)) message = "You can NOT overwrite the layout name default\n" + restrictions;
-				if (input.length() == 0) message = "You must type a name\n" + restrictions;
-				input = "";
-			}
 		}
 		return input;
 	}

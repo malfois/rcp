@@ -2,7 +2,9 @@ package es.alba.sweet.configuration;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public abstract class AFileConfiguration {
+import es.alba.sweet.AModelObject;
+
+public abstract class AFileConfiguration extends AModelObject {
 
 	@JsonIgnore
 	public String filePrefix;

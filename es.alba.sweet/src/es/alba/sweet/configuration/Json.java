@@ -76,9 +76,9 @@ public class Json<T extends AFileConfiguration> {
 	}
 
 	public void print() {
+		StringWriter stringEmp = new StringWriter();
 		try {
 			objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-			StringWriter stringEmp = new StringWriter();
 			objectMapper.writeValue(stringEmp, this.configuration);
 			System.out.println(stringEmp);
 		} catch (IOException e) {

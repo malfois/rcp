@@ -1,5 +1,5 @@
 
-package es.alba.sweet.parts;
+package es.alba.sweet.parts.output;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -12,26 +12,24 @@ import es.alba.sweet.core.output.AMessage;
 import es.alba.sweet.core.output.Output;
 import es.alba.sweet.core.output.OutputName;
 
-public class DebugViewer {
-
+public class MessageViewer {
 	private OutputTextViewer viewer;
 
 	@Inject
-	public DebugViewer() {
+	public MessageViewer() {
 
 	}
 
 	@PostConstruct
 	public void postConstruct(Composite parent) {
-		viewer = new OutputTextViewer(parent, Output.DEBUG);
+		viewer = new OutputTextViewer(parent, Output.MESSAGE);
 
-		Output.DEBUG.info("es.alba.sweet.parts.DebugViewer.postConstruct", "DebugViewer constructed");
-
+		Output.DEBUG.info("es.alba.sweet.parts.MessageViewer.postConstruct", "MessageViewer constructed");
 	}
 
 	@Inject
 	@Optional
-	public void listUpdated(@UIEventTopic(OutputName.DEBUG) AMessage message) {
+	public void listUpdated(@UIEventTopic(OutputName.MESSAGE) AMessage message) {
 		this.viewer.add(message);
 	}
 }

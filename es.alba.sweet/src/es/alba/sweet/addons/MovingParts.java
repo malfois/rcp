@@ -11,6 +11,8 @@ import org.eclipse.e4.ui.workbench.UIEvents;
 import org.eclipse.e4.ui.workbench.UIEvents.EventTags;
 import org.osgi.service.event.Event;
 
+import es.alba.sweet.core.output.Output;
+
 public class MovingParts {
 
 	@Inject
@@ -26,14 +28,16 @@ public class MovingParts {
 			Object newValue = event.getProperty(EventTags.NEW_VALUE);
 			if (newValue instanceof MPart) {
 				MPart part = (MPart) newValue;
-				System.out.println("Added " + part.getLabel() + " at position: " + event.getProperty(EventTags.POSITION));
+				Output.DEBUG.info("es.alba.sweet.addons.MovingParts.subscribeTopicElementContainerChildren",
+						"Added " + part.getLabel() + " at position: " + event.getProperty(EventTags.POSITION));
 			}
 		} else if (UIEvents.isREMOVE(event)) {
 			// check old value, because we check for remove and new value will be null
 			Object oldValue = event.getProperty(EventTags.OLD_VALUE);
 			if (oldValue instanceof MPart) {
 				MPart part = (MPart) oldValue;
-				System.out.println("Removed " + part.getLabel() + " from position: " + event.getProperty(EventTags.POSITION));
+				Output.DEBUG.info("es.alba.sweet.addons.MovingParts.subscribeTopicElementContainerChildren",
+						"Removed " + part.getLabel() + " from position: " + event.getProperty(EventTags.POSITION));
 			}
 		}
 	}

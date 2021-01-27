@@ -1,4 +1,4 @@
-package es.alba.sweet.parts;
+package es.alba.sweet.parts.output;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -40,13 +40,13 @@ public class Configuration extends AFileConfiguration {
 		return result.get();
 	}
 
-	public String getSelectedPerspective() {
+	public String getSelectedPerspectiveId() {
 		if ((selectedPerspectiveId == null || selectedPerspectiveId.length() == 0) && !perspectives.isEmpty()) selectedPerspectiveId = perspectives.get(0).getId();
 		return selectedPerspectiveId;
 	}
 
-	public void setSelectedPerspective(String selectedPerspective) {
-		this.selectedPerspectiveId = selectedPerspective;
+	public void setSelectedPerspectiveId(String selectedPerspective) {
+		firePropertyChange("selectedPerspectiveId", this.selectedPerspectiveId, this.selectedPerspectiveId = selectedPerspective);
 	}
 
 	@JsonIgnore
@@ -63,6 +63,17 @@ public class Configuration extends AFileConfiguration {
 		}
 		Output.DEBUG.error("es.alba.sweet.perspective.Configuration.add", "Perspective " + perspective.getId() + " already configured. New configuration not added");
 		return false;
+	}
+
+	@JsonIgnore
+	public String getSelectedPerspectiveLabel() {
+		int index = this.selectedPerspectiveId.lastIndexOf("\\.");
+		return this.selectedPerspectiveId.substring(index);
+	}
+
+	@Override
+	public String toString() {
+		return "Configuration [perspectives=" + perspectives + ", selectedPerspectiveId=" + selectedPerspectiveId + "]";
 	}
 
 }
